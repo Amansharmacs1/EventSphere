@@ -4,7 +4,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
@@ -48,7 +47,6 @@ app.use(cookieParser());
 
 // Sanitize data
 app.use(mongoSanitize());
-app.use(xss());
 
 // Base Route
 app.get('/', (req, res) => {
@@ -80,13 +78,9 @@ app.use(notFound);
 app.use(errorHandler);
 
 const http = require('http');
-const { initSocket } = require('./sockets');
 
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
-
-// Initialize Socket.io
-initSocket(server);
 
 if (process.env.NODE_ENV !== 'production') {
   server.listen(PORT, () => {

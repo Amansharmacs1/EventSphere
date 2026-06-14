@@ -11,11 +11,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://event-sphere-blue.vercel.app',
+        target: 'https://event-sphere-ecru.vercel.app',
         changeOrigin: true,
       },
       '/uploads': {
-        target: 'https://event-sphere-blue.vercel.app',
+        target: 'https://event-sphere-ecru.vercel.app',
         changeOrigin: true,
       },
     },
