@@ -6,8 +6,8 @@ import App from './App.jsx'
 import './index.css'
 import axios from 'axios'
 
-// Use the deployed backend URL
-axios.defaults.baseURL = 'https://event-sphere-ecru.vercel.app';
+// Use the environment variable if set, otherwise fallback to deployed backend URL
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'https://event-sphere-ecru.vercel.app';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

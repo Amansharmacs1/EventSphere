@@ -71,8 +71,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/upload', uploadRoutes);
 
-// Make uploads folder static
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Static uploads serving removed for Serverless
 // Error Handling Middlewares
 app.use(notFound);
 app.use(errorHandler);

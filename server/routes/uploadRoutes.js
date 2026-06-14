@@ -2,21 +2,12 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const { protect, authorize } = require('../middleware/authMiddleware');
+const cloudinary = require('../config/cloudinary');
 
 const router = express.Router();
 
-// Setup Multer Storage
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename(req, file, cb) {
-    cb(
-      null,
-      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-    );
-  },
-});
+// Setup Multer Memory Storage for Serverless Environments
+const storage = multer.memoryStorage();
 
 function checkFileType(file, cb) {
   const filetypes = /jpg|jpeg|png|webp/;
@@ -45,9 +36,22 @@ router.post('/', protect, authorize('admin'), upload.single('image'), (req, res)
     return res.status(400).json({ success: false, message: 'No image uploaded' });
   }
   
-  // Return the path that the frontend can use to display the image
-  const imagePath = `/${req.file.path}`;
-  res.status(200).json({ success: true, url: imagePath });
+  // Stream the buffer to Cloudinary
+  const uploadStream = cloudinary.uploader.upload_stream(
+    { folder: 'event_banners' },
+    (error, result) => {
+      if (error) {
+        console.error('Cloudinary Upload Error:', error);
+        return res.status(500).json({ success: false, message: 'Image upload failed' });
+      }
+      
+      // Return the secure URL provided by Cloudinary
+      res.status(200).json({ success: true, url: result.secure_url });
+    }
+  );
+
+  // End the stream with the buffer
+  uploadStream.end(req.file.buffer);
 });
 
 module.exports = router;
