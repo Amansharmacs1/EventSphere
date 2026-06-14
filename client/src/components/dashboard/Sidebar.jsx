@@ -3,7 +3,6 @@ import {
   LayoutDashboard, 
   Calendar, 
   Ticket, 
-  Settings, 
   PlusCircle, 
   Users, 
   ScanLine 

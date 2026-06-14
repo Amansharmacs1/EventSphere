@@ -2,39 +2,11 @@ import { useEffect, useState } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { QrCode, CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { QrCode, CheckCircle, Loader2 } from 'lucide-react';
 
 const QRScanner = () => {
   const [scanResult, setScanResult] = useState(null);
   const [isVerifying, setIsVerifying] = useState(false);
-
-  useEffect(() => {
-    // Initialize Scanner
-    const scanner = new Html5QrcodeScanner(
-      'qr-reader',
-      { fps: 10, qrbox: { width: 250, height: 250 } },
-      false
-    );
-
-    scanner.render(onScanSuccess, onScanFailure);
-
-    function onScanSuccess(decodedText) {
-      // Avoid multiple scans of the same ticket consecutively
-      setScanResult((prev) => {
-        if (prev === decodedText) return prev;
-        verifyTicket(decodedText);
-        return decodedText;
-      });
-    }
-
-    function onScanFailure(error) {
-      // Ignore routine scan failures (when no QR is in frame)
-    }
-
-    return () => {
-      scanner.clear().catch(console.error);
-    };
-  }, []);
 
   const verifyTicket = async (ticketId) => {
     setIsVerifying(true);
@@ -57,6 +29,36 @@ const QRScanner = () => {
       }, 3000);
     }
   };
+
+
+  useEffect(() => {
+    // Initialize Scanner
+    const scanner = new Html5QrcodeScanner(
+      'qr-reader',
+      { fps: 10, qrbox: { width: 250, height: 250 } },
+      false
+    );
+
+    scanner.render(onScanSuccess, onScanFailure);
+
+    function onScanSuccess(decodedText) {
+      // Avoid multiple scans of the same ticket consecutively
+      setScanResult((prev) => {
+        if (prev === decodedText) return prev;
+        verifyTicket(decodedText);
+        return decodedText;
+      });
+    }
+
+    function onScanFailure() {
+      // Ignore routine scan failures (when no QR is in frame)
+    }
+
+    return () => {
+      scanner.clear().catch(console.error);
+    };
+  }, []);
+
 
   return (
     <div className="max-w-3xl mx-auto space-y-8 animate-in fade-in duration-500">

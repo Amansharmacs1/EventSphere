@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { getEvent } from '../../features/events/eventSlice';
-import { Calendar, MapPin, Users, Clock, ArrowLeft, Loader2, Tag, User as UserIcon } from 'lucide-react';
+import { Calendar, MapPin, Users, Clock, ArrowLeft, Loader2, User as UserIcon } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 import axios from 'axios';

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Loader2, CheckCircle, XCircle, Search } from 'lucide-react';
+import { Loader2, CheckCircle, XCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const ManageRegistrations = () => {
@@ -19,6 +19,7 @@ const ManageRegistrations = () => {
           setSelectedEvent(response.data.data[0]._id);
         }
       } catch (error) {
+        console.error('Fetch events error:', error);
         toast.error('Failed to fetch events');
       } finally {
         setIsLoadingEvents(false);
@@ -39,6 +40,7 @@ const ManageRegistrations = () => {
         });
         setRegistrations(response.data.data);
       } catch (error) {
+        console.error('Fetch registrations error:', error);
         toast.error('Failed to fetch registrations');
       } finally {
         setIsLoadingRegs(false);

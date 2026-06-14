@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRecommendations } from '../../features/events/eventSlice';
 import { Link } from 'react-router-dom';
-import { Calendar, Loader2, Sparkles, MapPin, Clock } from 'lucide-react';
+import { Calendar, Loader2, Sparkles } from 'lucide-react';
 
 import { motion } from 'framer-motion';
 

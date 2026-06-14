@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Bell, User as UserIcon } from 'lucide-react';
+import { LogOut, Bell } from 'lucide-react';
 import ThemeToggle from '../ui/ThemeToggle';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';

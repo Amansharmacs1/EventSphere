@@ -19,6 +19,7 @@ app.use(helmet());
 const allowedOrigins = [
   process.env.CLIENT_URL,
   'https://event-sphere-g2sx.vercel.app',
+  'https://event-sphere-ecru.vercel.app',
   'http://localhost:5173'
 ];
 

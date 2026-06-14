@@ -58,7 +58,7 @@ export const deleteEvent = createAsyncThunk(
   'events/delete',
   async (id, thunkAPI) => {
     try {
-      const response = await axios.delete(API_URL + id, { withCredentials: true });
+      await axios.delete(API_URL + id, { withCredentials: true });
       return id;
     } catch (error) {
       const message = error.response?.data?.message || error.message || error.toString();
