@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMyTickets } from '../../features/tickets/ticketSlice';
 import { Loader2, Ticket as TicketIcon, CheckCircle, Download, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 const MyTickets = () => {
   const dispatch = useDispatch();
@@ -150,7 +151,10 @@ const MyTickets = () => {
                    <div className="w-full space-y-2">
                      {ticket.status === 'Active' && (
                        <button 
-                         onClick={() => window.open(`/api/tickets/${ticket._id}/download`, '_blank')}
+                         onClick={() => {
+                           const baseURL = axios.defaults.baseURL || '';
+                           window.open(`${baseURL}/api/tickets/${ticket._id}/download`, '_blank');
+                         }}
                          className="w-full flex justify-center items-center py-2.5 bg-[#1a1a1a] hover:bg-black text-white rounded-lg font-bold transition-colors text-sm uppercase tracking-wider"
                        >
                          <Download size={16} className="mr-2" /> Download
@@ -159,7 +163,11 @@ const MyTickets = () => {
                      
                      {ticket.status === 'Used' && ticket.certificateUrl && (
                        <button 
-                         onClick={() => window.open(ticket.certificateUrl, '_blank')}
+                         onClick={() => {
+                           const baseURL = axios.defaults.baseURL || '';
+                           const certUrl = ticket.certificateUrl.startsWith('http') ? ticket.certificateUrl : `${baseURL}${ticket.certificateUrl}`;
+                           window.open(certUrl, '_blank');
+                         }}
                          className="w-full flex justify-center items-center py-2.5 bg-[#d4af37] hover:bg-[#b8962c] text-black rounded-lg font-bold transition-colors text-sm uppercase tracking-wider"
                        >
                          <Award size={16} className="mr-2" /> Certificate
