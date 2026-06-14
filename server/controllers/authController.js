@@ -60,12 +60,16 @@ exports.login = asyncHandler(async (req, res, next) => {
 exports.logout = asyncHandler(async (req, res, next) => {
   res.cookie('token', 'none', {
     expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none'
   });
   
   res.cookie('refreshToken', 'none', {
     expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none'
   });
 
   res.status(200).json({ success: true, data: {} });
@@ -104,8 +108,8 @@ exports.refreshToken = asyncHandler(async (req, res, next) => {
     const options = {
       expires: new Date(Date.now() + 15 * 60 * 1000), // 15 mins
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: true,
+      sameSite: 'none',
     };
 
     res.status(200).cookie('token', token, options).json({
