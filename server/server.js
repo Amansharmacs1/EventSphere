@@ -75,6 +75,13 @@ const server = http.createServer(app);
 // Initialize Socket.io
 initSocket(server);
 
-server.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  server.listen(PORT, () => {
+    console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+  });
+} else {
+  // In production (Vercel), we just export the app
+  console.log('Exporting app for Vercel Serverless');
+}
+
+module.exports = app;
