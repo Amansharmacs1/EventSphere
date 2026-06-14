@@ -7,7 +7,7 @@ import './index.css'
 import axios from 'axios'
 
 // Use the environment variable if set, otherwise fallback to deployed backend URL
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'https://event-sphere-ecru.vercel.app';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'https://eventsphere-rmrw.onrender.com';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
