@@ -22,7 +22,7 @@ const sendTokenResponse = (user, statusCode, res) => {
   // user.save({ validateBeforeSave: false });
 
   const options = {
-    expires: new Date(Date.now() + 15 * 60 * 1000), // 15 mins for access token cookie
+    expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours for access token cookie
     httpOnly: true,
     secure: true, // MUST be true for SameSite=None
     sameSite: 'none',
