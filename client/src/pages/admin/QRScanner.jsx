@@ -33,6 +33,7 @@ const QRScanner = () => {
 
   const scannerRef = useRef(null);
   const scannerInitialized = useRef(false);
+  const lastScannedRef = useRef(null);
 
   useEffect(() => {
     // Only initialize once
@@ -50,12 +51,16 @@ const QRScanner = () => {
     scanner.render(onScanSuccess, onScanFailure);
 
     function onScanSuccess(decodedText) {
-      // Avoid multiple scans of the same ticket consecutively
-      setScanResult((prev) => {
-        if (prev === decodedText) return prev;
-        verifyTicket(decodedText);
-        return decodedText;
-      });
+      if (lastScannedRef.current === decodedText) return;
+      
+      lastScannedRef.current = decodedText;
+      setScanResult(decodedText);
+      verifyTicket(decodedText);
+      
+      // Reset ref after 3 seconds to allow re-scanning the same code if needed
+      setTimeout(() => {
+        lastScannedRef.current = null;
+      }, 3000);
     }
 
     function onScanFailure() {
