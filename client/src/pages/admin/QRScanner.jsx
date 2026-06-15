@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -31,13 +31,21 @@ const QRScanner = () => {
   };
 
 
+  const scannerRef = useRef(null);
+  const scannerInitialized = useRef(false);
+
   useEffect(() => {
-    // Initialize Scanner
+    // Only initialize once
+    if (scannerInitialized.current) return;
+    scannerInitialized.current = true;
+
     const scanner = new Html5QrcodeScanner(
       'qr-reader',
       { fps: 10, qrbox: { width: 250, height: 250 } },
       false
     );
+    
+    scannerRef.current = scanner;
 
     scanner.render(onScanSuccess, onScanFailure);
 
@@ -55,7 +63,11 @@ const QRScanner = () => {
     }
 
     return () => {
-      scanner.clear().catch(console.error);
+      if (scannerRef.current) {
+        scannerRef.current.clear().catch(console.error);
+        scannerRef.current = null;
+        scannerInitialized.current = false;
+      }
     };
   }, []);
 
