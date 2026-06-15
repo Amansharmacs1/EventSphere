@@ -118,7 +118,17 @@ exports.deleteEvent = asyncHandler(async (req, res, next) => {
     throw new Error('Event not found');
   }
 
+  const eventId = event._id;
   await event.deleteOne();
+
+  // Cleanup orphaned documents
+  const Registration = require('../models/Registration');
+  const Ticket = require('../models/Ticket');
+  const Certificate = require('../models/Certificate');
+
+  await Registration.deleteMany({ event: eventId });
+  await Ticket.deleteMany({ event: eventId });
+  await Certificate.deleteMany({ event: eventId });
 
   res.status(200).json({ success: true, data: {} });
 });

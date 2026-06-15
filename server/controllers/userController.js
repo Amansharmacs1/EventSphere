@@ -93,3 +93,22 @@ exports.downloadCertificatePDF = asyncHandler(async (req, res, next) => {
   res.setHeader('Content-Disposition', `inline; filename="Certificate-${certificate.student.name.replace(/ /g, '_')}.pdf"`);
   res.send(pdfBuffer);
 });
+
+// @desc    Get user quick stats
+// @route   GET /api/users/stats
+// @access  Private/Student
+exports.getUserStats = asyncHandler(async (req, res, next) => {
+  const Certificate = require('../models/Certificate');
+  const Registration = require('../models/Registration');
+
+  const registeredCount = await Registration.countDocuments({ student: req.user.id });
+  const certificateCount = await Certificate.countDocuments({ student: req.user.id });
+
+  res.status(200).json({
+    success: true,
+    data: {
+      registeredEvents: registeredCount,
+      certificatesEarned: certificateCount
+    }
+  });
+});

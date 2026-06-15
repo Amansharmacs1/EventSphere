@@ -23,9 +23,23 @@ const StudentDashboard = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { recommendations, isLoading } = useSelector((state) => state.event);
+  const [stats, setStats] = useState({ registeredEvents: '--', certificatesEarned: '--' });
 
   useEffect(() => {
     dispatch(getRecommendations());
+    
+    const fetchStats = async () => {
+      try {
+        const { data } = await import('axios').then(m => m.default).then(axios => axios.get('/api/users/stats', { withCredentials: true }));
+        if (data && data.data) {
+          setStats(data.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch stats', error);
+      }
+    };
+    
+    fetchStats();
   }, [dispatch]);
 
   return (
@@ -103,14 +117,14 @@ const StudentDashboard = () => {
                    <Calendar className="text-primary-600" />
                    <span className="text-gray-700 dark:text-gray-300">Registered Events</span>
                  </div>
-                 <span className="font-bold text-gray-900 dark:text-white">--</span>
+                 <span className="font-bold text-gray-900 dark:text-white">{stats.registeredEvents}</span>
                </div>
                <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
                  <div className="flex items-center gap-3">
                    <Sparkles className="text-green-600" />
                    <span className="text-gray-700 dark:text-gray-300">Certificates Earned</span>
                  </div>
-                 <span className="font-bold text-gray-900 dark:text-white">--</span>
+                 <span className="font-bold text-gray-900 dark:text-white">{stats.certificatesEarned}</span>
                </div>
              </div>
            </div>
