@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRecommendations } from '../../features/events/eventSlice';
 import { Link } from 'react-router-dom';
