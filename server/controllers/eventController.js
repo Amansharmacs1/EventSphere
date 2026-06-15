@@ -156,8 +156,21 @@ exports.generateAIDescription = asyncHandler(async (req, res, next) => {
     
     res.status(200).json({ success: true, data: response.text });
   } catch (error) {
+    if (error.status === 503) {
+      try {
+        console.log('gemini-2.5-flash overloaded, trying gemini-1.5-flash fallback...');
+        const fallbackResponse = await ai.models.generateContent({
+          model: 'gemini-1.5-flash',
+          contents: prompt,
+        });
+        return res.status(200).json({ success: true, data: fallbackResponse.text });
+      } catch (fallbackError) {
+        console.error('AI Fallback Generation Error:', fallbackError);
+      }
+    }
+    
     console.error('AI Generation Error:', error);
     res.status(500);
-    throw new Error('Failed to generate AI description');
+    throw new Error('Failed to generate AI description. The AI model is currently overloaded, please try again in a few minutes.');
   }
 });
