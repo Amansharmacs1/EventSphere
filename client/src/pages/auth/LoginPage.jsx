@@ -49,7 +49,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-surface-dark p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-border-dark glass">
+    <div className="bg-white dark:bg-surface-dark p-6 sm:p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-border-dark glass">
       <div className="text-center mb-8">
         <Link to="/" className="inline-block text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-400 mb-2">
           EventSphere

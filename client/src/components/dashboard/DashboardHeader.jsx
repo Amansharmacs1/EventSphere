@@ -1,12 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Bell } from 'lucide-react';
+import { LogOut, Bell, Menu } from 'lucide-react';
 import ThemeToggle from '../ui/ThemeToggle';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 
-const DashboardHeader = () => {
+const DashboardHeader = ({ setIsSidebarOpen }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,9 +18,15 @@ const DashboardHeader = () => {
   };
 
   return (
-    <header className="h-20 bg-white dark:bg-surface-dark border-b border-gray-100 dark:border-border-dark flex items-center justify-between px-8 sticky top-0 z-30 transition-colors">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+    <header className="h-20 bg-white dark:bg-surface-dark border-b border-gray-100 dark:border-border-dark flex items-center justify-between px-4 sm:px-8 sticky top-0 z-30 transition-colors">
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="md:hidden p-2 -ml-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+        >
+          <Menu size={24} />
+        </button>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
           {user?.role === 'admin' ? 'Admin Hub' : 'Student Portal'}
         </h2>
       </div>

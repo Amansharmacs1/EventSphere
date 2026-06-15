@@ -15,7 +15,7 @@ const LandingPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6"
+            className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6"
           >
             Plan, Manage and Attend <br className="hidden md:block" />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-400">
