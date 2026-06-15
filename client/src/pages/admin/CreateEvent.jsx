@@ -40,7 +40,6 @@ const CreateEvent = () => {
 
     try {
       const response = await axios.post('/api/upload', uploadData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true
       });
       setFormData((prev) => ({ ...prev, banner: response.data.url }));
